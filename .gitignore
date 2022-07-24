@@ -1,0 +1,12 @@
+*.class
+*.log
+
+target/
+
+.bsp/
+.bloop/
+.metals/
+
+.vscode/
+
+.env

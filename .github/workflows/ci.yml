@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scalafmt:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: AvaPL/scalafmt-native-formatter@v0.1.2
+
+  build-lint-test:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: coursier/cache-action@v6
+
+      - name: Resolve dependencies
+        run: sbtn update
+
+      - name: Run tests
+        run: sbtn Test/test
+
+      - name: Publish JUnit test report
+        if: always() # publish report when tests fail
+        uses: mikepenz/action-junit-report@v2
+        with:
+          github_token: ${{ github.token }}
+          report_paths: "**/target/test-reports/*.xml"
