@@ -35,7 +35,7 @@
         <dependency>
             <groupId>eu.timepit</groupId>
             <artifactId>refined_2.12</artifactId>
-            <version>0.10.1</version>
+            <version>0.10.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
